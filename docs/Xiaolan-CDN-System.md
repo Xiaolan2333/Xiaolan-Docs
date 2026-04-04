@@ -10,6 +10,18 @@
 * 同步 Nginx 配置文件
 * 集中收集各节点 Nginx 访问日志
 
+## 从V0.0.2更新
+
+由于V0.0.3在目录方面做了较多更改，所以需要使用单独的更新脚本
+
+一键更新命令：
+
+```bash
+wget https://github.com/Xiaolan2333/Xiaolan-CDN-System/releases/download/Xiaolan-CDN-System-V0.0.3/system-update-to-0.0.3+.sh && chmod 777 system-update-to-0.0.3+.sh && ./system-update-to-0.0.3+.sh
+```
+
+* 此脚本仅支持V0.0.2更新至V0.0.3
+
 ## 使用说明
 
 ### 支持的环境

@@ -13,6 +13,18 @@
 
 必须修改默认密钥和密码，否则等于裸奔
 
+## 从V0.0.2更新
+
+由于V0.0.3在目录方面做了较多更改，所以需要使用单独的更新脚本
+
+一键更新命令：
+
+```bash
+wget https://github.com/Xiaolan2333/Xiaolan-CDN-Web/releases/download/Xiaolan-CDN-Web-V0.0.3/web-update-to-0.0.3+.sh && chmod 777 web-update-to-0.0.3+.sh && ./web-update-to-0.0.3+.sh
+```
+
+* 此脚本仅支持V0.0.2更新至V0.0.3
+
 ## 必改配置（非常重要）
 
 编辑：
