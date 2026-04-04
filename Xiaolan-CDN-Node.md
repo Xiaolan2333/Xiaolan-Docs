@@ -23,6 +23,7 @@
 wget https://github.com/Xiaolan2333/Xiaolan-CDN-Node/releases/download/Xiaolan-CDN-Node-V0.0.3/node-update-to-0.0.3+.sh && chmod 777 node-update-to-0.0.3+.sh && ./node-update-to-0.0.3+.sh
 ```
 
+* 执行完此更新脚本后需重新在主控端发起同步才可使用此节点
 * 此脚本仅支持V0.0.2更新至V0.0.3
 
 ## 自动安装
