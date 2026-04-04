@@ -23,6 +23,8 @@
 wget https://github.com/Xiaolan2333/Xiaolan-CDN-Web/releases/download/Xiaolan-CDN-Web-V0.0.3/web-update-to-0.0.3+.sh && chmod 777 web-update-to-0.0.3+.sh && ./web-update-to-0.0.3+.sh
 ```
 
+* 更新后需要重新修改 server.js 和 index.html 中的配置项
+
 * 此脚本仅支持V0.0.2更新至V0.0.3
 
 ## 必改配置（非常重要）
@@ -49,6 +51,18 @@ systemctl restart xiaolan-cdn-web.service
 ```
 
 重启后端进程
+
+编辑：
+
+``` bash
+vim /opt/xiaolan-cdn/xiaolan-cdn-web/index.html
+```
+
+修改以下内容：
+
+```js
+const API_BASE = 'http://服务器的IP:3000/api'; 
+```
 
 
 ## 支持的环境
@@ -158,7 +172,7 @@ PHP版本：纯静态
 vim /opt/xiaolan-cdn/xiaolan-cdn-web/index.html
 ```
 
-修改为
+修改
 
 ```js
 const API_BASE = 'http://服务器的IP:3000/api'; 
