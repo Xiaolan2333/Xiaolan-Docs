@@ -372,15 +372,15 @@ local secret = "Welcome-to-Xiaolan-CDN" -- 必须修改这个密钥，建议使�
 
 ```lua
 -- 配置项
-local secret = "Welcome-to-Xiaolan-CDN" -- 必须修改这个密钥，建议使用复杂随机字符串
-local wait_time = 5 -- 强制等待时间（秒）
-local valid_time = 3600 -- Token 有效期（秒）
--- 配置项结束
+local secret      = "Xiaolan233@" -- 务必修改这个密钥！
+local cookie_name = "Xiaolan-CDN" -- Cookie 的名称
+local wait_time   = 5 -- 强制等待时间（秒）
+local valid_time  = 3600 -- Token 有效期（秒），2 小时
 
-local cookie_name = "Xiaolan-CDN-Token"
-local client_ip = ngx.var.remote_addr
+
+local client_ip  = ngx.var.remote_addr
 local user_agent = ngx.var.http_user_agent or ""
-local token = ngx.var["cookie_" .. cookie_name]
+local token      = ngx.var["cookie_" .. cookie_name]
 
 -- 签名函数
 local function make_sign(ip, ua, ts)
@@ -404,167 +404,93 @@ if token then
     end
 end
 
--- 验证失败或首次访问
+-- 验证失败或首次访问，生成新的 Token 并展示5秒盾页面
 local cur_ts = ngx.time()
 local cur_sign = make_sign(client_ip, user_agent, cur_ts)
 local new_token = cur_ts .. "-" .. cur_sign
 
--- 渲染 HTML 页面
+-- HTML 页面
 ngx.header.content_type = "text/html; charset=utf-8"
 local html = [=[
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>请稍候…</title>
-	<style>
-@keyframes dots {
-	0% {
-		content: ""
-	}
-
-	25% {
-		content: "."
-	}
-
-	50% {
-		content: ".."
-	}
-
-	75% {
-		content: "..."
-	}
-
-	to {
-		content: ""
-	}
-}
-
-* {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0
-}
-
-button,html {
-	font-family: system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji
-}
-
-body {
-	display: flex;
-	flex-direction: column;
-	height: 100vh;
-	min-height: 100vh
-}
-
-body.theme-dark a:active,body.theme-dark a:focus {
-	border-radius: 2px;
-	outline: 2px solid #4693ff;
-	outline-offset: 2px
-}
-
-body.theme-light .botnet-banner a:active,body.theme-light .botnet-banner a:focus {
-	border-radius: 2px;
-	outline: 2px solid #4693ff;
-	outline-offset: 2px
-}
-
-.main-content {
-	margin: 8rem auto;
-	max-width: 60rem;
-	padding-left: 2rem;
-	padding-right: 2rem;
-	width: 100%
-}
-
-.main-content .loading-verifying {
-	height: 76.391px
-}
-
-.main-wrapper {
-	align-items: center;
-	display: flex;
-	flex: 1;
-	flex-direction: column
-}
-
-h1 {
-	font-size: 2.5rem
-}
-
-h1,h2 {
-	font-weight: 600;
-	line-height: 125%
-}
-
-h2 {
-	font-size: 1.5rem
-}
-
-.ch-ordered-list {
-	padding-left: 1.5rem;
-	padding-right: 0
-}
-
-.ch-description {
-	font-weight: 400;
-	margin-bottom: 2rem;
-	margin-top: 0
-}
-
-.ch-title {
-	margin: 8px 0
-}
-
-.footer {
-	line-height: 1.125rem;
-	margin: 0 auto;
-	max-width: 60rem;
-	padding-left: 2rem;
-	padding-right: 2rem;
-	width: 100%
-}
-
-.footer,.footer a {
-	font-size: .75rem
-}
-
-.footer-inner {
-	border-top: 1px solid #d9d9d9;
-	display: flex;
-	justify-content: center;
-	padding-bottom: 1rem;
-	padding-top: 1rem
-}
-
-.footer-wrapper {
-	text-align: center
-}
-
-.footer-divider {
-	border: 1px solid #d9d9d9;
-	height: 12px
-}
-	</style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>请稍候…</title>
+    <style>
+        @keyframes dots {
+            0% { content: "" }
+            25% { content: "." }
+            50% { content: ".." }
+            75% { content: "..." }
+            to { content: "" }
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0 }
+        button,html { font-family: system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji }
+        body { display: flex; flex-direction: column; height: 100vh; min-height: 100vh }
+        body.theme-dark a:active,body.theme-dark a:focus { border-radius: 2px; outline: 2px solid #4693ff; outline-offset: 2px }
+        body.theme-light .botnet-banner a:active,body.theme-light .botnet-banner a:focus { border-radius: 2px; outline: 2px solid #4693ff; outline-offset: 2px }
+        .main-content { margin: 8rem auto; max-width: 60rem; padding-left: 2rem; padding-right: 2rem; width: 100% }
+        .main-content .loading-verifying { height: 76.391px }
+        .main-wrapper { align-items: center; display: flex; flex: 1; flex-direction: column }
+        h1 { font-size: 2.5rem }
+        h1,h2 { font-weight: 600; line-height: 125% }
+        h2 { font-size: 1.5rem }
+        .ch-ordered-list { padding-left: 1.5rem; padding-right: 0 }
+        .ch-description { font-weight: 400; margin-bottom: 2rem; margin-top: 0 }
+        .ch-title { margin: 8px 0 }
+        .footer { line-height: 1.125rem; margin: 0 auto; max-width: 60rem; padding-left: 2rem; padding-right: 2rem; width: 100% }
+        .footer,.footer a { font-size: .75rem }
+        .footer-inner { border-top: 1px solid #d9d9d9; display: flex; justify-content: center; padding-bottom: 1rem; padding-top: 1rem }
+        .footer-wrapper { text-align: center }
+        .footer-divider { border: 1px solid #d9d9d9; height: 12px }
+    </style>
 </head>
 <body>
-	<div class="main-wrapper lang-zh-cn" role="main">
-		<div class="main-content">
-			<h1 class="ch-title spacer-bottom">执行安全验证</h1>
-			<h2 class="ch-description spacer-top">正在验证您是否是真人，这可能需要几秒钟时间。</h2>
-      <h1>请等待<span class="ui-counter">5</span>秒</h1>
-		</div>
-	</div>
-	<div class="footer" role="contentinfo">
-		<div class="footer-inner">
-			<div class="footer-wrapper">
-				<div class="clearfix diagnostic-wrapper">
-				</div>
-				<div class="footer-link-wrapper"><span class="footer-text">性能和安全由 <a rel="noopener noreferrer" href="https://www.xiaolan.xin" target="_blank">Xiaolan</a> 提供</span>
+    <div class="main-wrapper lang-zh-cn" role="main">
+        <div class="main-content">
+            <h1 class="ch-title spacer-bottom">执行安全验证</h1>
+            <h2 class="ch-description spacer-top">正在验证您是否是真人，这可能需要几秒钟时间。</h2>
+            <h1>请等待<span class="ui-counter">]=] .. wait_time .. [=[</span>秒</h1>
         </div>
-			</div>
-		</div>
-	</div>
+    </div>
+    <div class="footer" role="contentinfo">
+        <div class="footer-inner">
+            <div class="footer-wrapper">
+                <div class="clearfix diagnostic-wrapper"></div>
+                <div class="footer-link-wrapper">
+                    <span class="footer-text">性能和安全由 <a rel="noopener noreferrer" href="https://www.xiaolan.xin" target="_blank">Xiaolan</a> 提供</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            var timeLeft = ]=] .. wait_time .. [=[;
+            var counterEl = document.querySelector('.ui-counter');
+            
+            var interval = setInterval(function() {
+                timeLeft--;
+                if (counterEl) {
+                    counterEl.textContent = timeLeft;
+                }
+                
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    
+                    // 倒计时结束，写入 Cookie 并刷新
+                    var d = new Date();
+                    d.setTime(d.getTime() + (]=] .. valid_time .. [=[ * 1000));
+                    var expires = "expires=" + d.toUTCString();
+                    
+                    document.cookie = "]=] .. cookie_name .. [=[" + "=" + "]=] .. new_token .. [=[" + "; " + expires + "; path=/; SameSite=Lax";
+                    
+                    window.location.reload();
+                }
+            }, 1000);
+        })();
+    </script>
 </body>
 </html>
 ]=]
