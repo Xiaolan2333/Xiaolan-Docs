@@ -20,11 +20,24 @@
 一键更新命令：
 
 ```bash
-wget https://github.com/Xiaolan2333/Xiaolan-CDN-Node/releases/download/Xiaolan-CDN-Node-V0.0.3/node-update-to-0.0.3+.sh && chmod 777 node-update-to-0.0.3+.sh && ./node-update-to-0.0.3+.sh
+wget https://github.com/Xiaolan2333/Xiaolan-CDN-Node/releases/download/Xiaolan-CDN-Node-V0.0.3/node-update-to-0.0.3.sh && chmod 777 node-update-to-0.0.3.sh && ./node-update-to-0.0.3.sh
 ```
 
 * 执行完此更新脚本后需重新在主控端发起同步才可使用此节点
 * 此脚本仅支持V0.0.2更新至V0.0.3
+
+## 从V0.0.3更新
+
+由于V0.0.4将NJS模块改为Lua模块，所以需要使用单独的更新脚本
+
+一键更新命令：
+
+```bash
+wget https://github.com/Xiaolan2333/Xiaolan-CDN-Node/releases/download/Xiaolan-CDN-Node-V0.0.4/node-update-to-0.0.4.sh && chmod 777 node-update-to-0.0.4.sh && ./node-update-to-0.0.4.sh
+```
+
+* 执行完此更新脚本后需重新在主控端发起同步才可使用此节点
+* 此脚本仅支持V0.0.3更新至V0.0.4
 
 ## 自动安装
 
@@ -104,48 +117,110 @@ rm /opt/xiaolan-cdn/xiaolan-cdn-node/Xiaolan-CDN-Node.zip
 
 ## 编译安装
 
-* 此处以**Deb**系系统为例，其它系统请自行修改命令
+* 此处以 **/root** 目录 **Deb** 系系统为例，其它目录/系统请自行修改命令
 
-1. 安装所需运行库
+1. 进入目录
 
 ```bash
-apt install wget unzip build-essential libgd-dev libxslt-dev libxml2-dev -y
+cd /root
 ```
 
-2. 下载源代码压缩包
+2. 安装所需运行库
+
+```bash
+apt install unzip build-essential libgd-dev libxslt-dev libxml2-dev -y
+```
+
+3. 下载源代码压缩包
 
 ```bash
 wget https://raw.githubusercontent.com/Xiaolan2333/Xiaolan-CDN-Node/refs/heads/main/src/src.zip
 ```
 
-3. 解压
+4. 解压
 
 ```bash
 unzip src.zip
 ```
 
-4. 设置权限并进入文件夹
+5. 设置权限
 
 ```bash
 chmod -R 777 Xiaolan-CDN-Node
 ```
 
-5. 进入文件夹
+6. 安装LuaJIT
 
 ```bash
-cd Xiaolan-CDN-Node && cd nginx-1.29.7
+cd LuaJIT-2.1
 ```
-
-6. 生成**MakeFile**
 
 ```bash
-./configure --prefix=/opt/xiaolan-cdn/xiaolan-cdn-node --build=Xiaolan-CDN --with-threads --with-file-aio --with-http_ssl_module --with-http_v2_module --with-http_v3_module --with-http_realip_module --with-http_addition_module --with-http_image_filter_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_auth_request_module --with-http_random_index_module --with-http_secure_link_module --with-http_degradation_module --with-http_slice_module --with-http_stub_status_module --with-stream --with-stream_ssl_module --with-stream_realip_module --with-stream_ssl_preread_module --with-pcre-jit --with-compat --with-pcre=./pcre2-10.47 --with-zlib=./zlib-1.3.2 --with-openssl=./openssl-3.5.5 --add-module=./njs-0.9.6/nginx
+make -j$(nproc)
 ```
-
-> 可根据需要自行修改
-
-7. 使用以下命令编译并安装
 
 ```bash
-make -j$(nproc) && make install
+make install
 ```
+
+```bash
+export LUAJIT_LIB=/usr/local/lib
+```
+
+```bash
+export LUAJIT_INC=/usr/local/include/luajit-2.1
+```
+
+```bash
+cd ..
+```
+
+7. 编译并安装Nginx
+
+```bash
+cd nginx-1.29.7
+```
+
+```bash
+./configure --prefix=/opt/xiaolan-cdn/xiaolan-cdn-node --build=Xiaolan-CDN-Node-V0.0.4 --with-threads --with-file-aio --with-http_ssl_module --with-http_v2_module --with-http_v3_module --with-http_realip_module --with-http_addition_module --with-http_image_filter_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_auth_request_module --with-http_random_index_module --with-http_secure_link_module --with-http_degradation_module --with-http_slice_module --with-http_stub_status_module --with-stream --with-stream_ssl_module --with-stream_realip_module --with-stream_ssl_preread_module --with-pcre-jit --with-compat --with-pcre=/root/pcre2-10.47 --with-zlib=/root/zlib-1.3.2 --with-openssl=/root/openssl-3.5.5 --with-ld-opt="-Wl,-rpath,/usr/local/lib" --add-module=/root/ngx-devel-kit --add-module=/root/lua-nginx-module
+```
+
+```bash
+make -j$(nproc)
+```
+
+```bash
+make install
+```
+
+```bash
+cd ..
+```
+
+8. 安装Lua核心
+
+```bash
+cd lua-resty-core
+```
+
+```bash
+make install PREFIX=/opt/xiaolan-cdn/xiaolan-cdn-node
+```
+
+```bash
+cd ..
+```
+
+```bash
+cd lua-resty-lrucache
+```
+
+```bash
+make install PREFIX=/opt/xiaolan-cdn/xiaolan-cdn-node
+```
+
+```bash
+cd ..
+```
+
+至此，安装完成

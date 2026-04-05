@@ -17,7 +17,7 @@
 一键更新命令：
 
 ```bash
-wget https://github.com/Xiaolan2333/Xiaolan-CDN-System/releases/download/Xiaolan-CDN-System-V0.0.3/system-update-to-0.0.3+.sh && chmod 777 system-update-to-0.0.3+.sh && ./system-update-to-0.0.3+.sh
+wget https://github.com/Xiaolan2333/Xiaolan-CDN-System/releases/download/Xiaolan-CDN-System-V0.0.3/system-update-to-0.0.3.sh && chmod 777 system-update-to-0.0.3.sh && ./system-update-to-0.0.3.sh
 ```
 
 * 此脚本仅支持V0.0.2更新至V0.0.3
